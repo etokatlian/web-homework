@@ -1,3 +1,4 @@
+const mongoose = require('mongoose')
 const { TransactionModel } = require('../data-models/Transaction')
 const { packageModel } = require('./utils.js')
 
@@ -18,7 +19,22 @@ async function findOne (id) {
   return packageModel(transaction)[0] || null
 }
 
+async function findOneAndUpdate (id, updates) {
+  const query = TransactionModel.findOneAndUpdate({ _id: id }, { $set: updates }, { new: true })
+  const transaction = await query.exec()
+  return packageModel(transaction)[0] || null
+}
+
+async function deleteOne (id) {
+  let objectId = new mongoose.Types.ObjectId(id)
+  const query = TransactionModel.findOneAndDelete({ _id: objectId })
+  const transaction = await query.exec()
+  return packageModel(transaction)[0] || null
+}
+
 module.exports = {
   find,
-  findOne
+  findOne,
+  findOneAndUpdate,
+  deleteOne
 }

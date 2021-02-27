@@ -1,27 +1,35 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { css } from '@emotion/core'
-import { Home } from './home'
+import Container from '@material-ui/core/Container'
+import { Home, Transactions, TransactionsCreate, TransactionEdit } from './pages'
 
 function AppRouter () {
   return (
     <Router>
-      <div css={layoutStyle}>
-        <nav css={navStyle}>
-          <ul >
-            <li>
-              <Link to='/'>Home</Link>
-            </li>
-            <li>
-              <Link to='/another'>Another route</Link>
-            </li>
-          </ul>
-        </nav>
-        <div className='main-content' css={contentStyle}>
-          <Route component={Home} exact path='/' />
-          <Route component={() => (<div>Content for /another route</div>)} exact path='/another' />
+      <Container>
+        <div css={layoutStyle}>
+          <nav css={navStyle}>
+            <ul >
+              <li>
+                <Link to='/'>Home</Link>
+              </li>
+              <li>
+                <Link to='/transactions'>Transactions</Link>
+              </li>
+              <li>
+                <Link to='/transactions/create'>Transaction Entry</Link>
+              </li>
+            </ul>
+          </nav>
+          <div className='main-content' css={contentStyle}>
+            <Route component={Home} exact path='/' />
+            <Route component={Transactions} exact path='/transactions' />
+            <Route component={TransactionEdit} exact path='/transaction/:id/edit' />
+            <Route component={TransactionsCreate} exact path='/transactions/create' />
+          </div>
         </div>
-      </div>
+      </Container>
     </Router>
   )
 }

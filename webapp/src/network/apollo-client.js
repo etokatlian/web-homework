@@ -8,8 +8,6 @@ const request = async operation => {
   operation.setContext({ headers })
 }
 
-const cache = new InMemoryCache()
-
 const requestLink = new ApolloLink(
   (operation, forward) =>
     new Observable(observer => {
@@ -46,7 +44,11 @@ export const client = new ApolloClient({
       uri: SERVER_URL
     })
   ]),
-  cache
+  connectToDevTools: true,
+  cache: new InMemoryCache({
+    freezeResults: true
+  }),
+  assumeImmutableResults: true
 })
 
 window.__APOLLO_CLIENT__ = client

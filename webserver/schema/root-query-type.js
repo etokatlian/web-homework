@@ -27,9 +27,9 @@ const RootQuery = new GraphQLObjectType({
         amount: { type: GraphQLFloat },
         credit: { type: GraphQLBoolean },
         debit: { type: GraphQLBoolean },
-        description: { type: GraphQLString },
-        merchant_id: { type: GraphQLString },
-        user_id: { type: GraphQLString }
+        description: { type: GraphQLString }
+        // merchant_id: { type: GraphQLString },
+        // user_id: { type: GraphQLString }
       },
       resolve (parentValue, args) {
         return Transactions.find(args)

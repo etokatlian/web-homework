@@ -9,10 +9,10 @@ const {
 const TransactionType = new GraphQLObjectType({
   name: 'Transaction',
   fields: () => ({
-    id: { type: GraphQLString },
-    user_id: { type: GraphQLString },
+    _id: { type: GraphQLString },
+    // user_id: { type: GraphQLString },
     description: { type: GraphQLString },
-    merchant_id: { type: GraphQLString },
+    // merchant_id: { type: GraphQLString },
     debit: { type: GraphQLBoolean },
     credit: { type: GraphQLBoolean },
     amount: { type: GraphQLFloat }
