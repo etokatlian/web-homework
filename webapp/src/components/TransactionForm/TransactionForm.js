@@ -53,10 +53,22 @@ const TransactionForm = ({ edit, data, history }) => {
     })
 
     const cache = client.readQuery({ query: GET_TRANSACTIONS })
+
+    const updatedCache = () => {
+      if (edit) {
+        const idx = cache.transactions.findIndex((transaction) => transaction._id === res.data.editTransaction._id)
+        const transactions = cache.transactions.slice()
+        transactions.splice(idx, 1, res.data.editTransaction)
+        return transactions
+      } else {
+        return [...cache.transactions, res.data.addTransaction]
+      }
+    }
+
     client.writeQuery({
       query: GET_TRANSACTIONS,
       data: {
-        transactions: [ ...cache.transactions, (edit ? res.data.editTransaction : res.data.addTransaction) ]
+        transactions: updatedCache()
       }
     })
 

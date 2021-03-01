@@ -35,15 +35,15 @@ const TxTableRow = ({ transaction, history }) => {
             {open ? <KeyboardArrowUpIcon data-testid='up-icon' /> : <KeyboardArrowDownIcon data-testid='down-icon' />}
           </IconButton>
         </TableCell>
-        <TableCell align='left' data-testid={makeDataTestId(transaction._id, 'id')}>{transaction._id}</TableCell>
-        <TableCell align='left' data-testid={makeDataTestId(transaction._id, 'userId')}>{transaction.userId}</TableCell>
-        <TableCell align='left' data-testid={makeDataTestId(transaction._id, 'description')}>{transaction.description}</TableCell>
-        <TableCell align='left' data-testid={makeDataTestId(transaction._id, 'merchant')}>{transaction.merchantId}</TableCell>
-        {/* <TableCell align='left' data-testid={makeDataTestId(transaction._id, 'debit')}>{transaction.debit}</TableCell>
-        <TableCell align='left' data-testid={makeDataTestId(transaction._id, 'credit')}>{transaction.credit}</TableCell> */}
-        <TableCell align='left' data-testid={makeDataTestId(transaction._id, 'paymentType')}>{transaction.debit ? 'Debit' : 'Credit'}</TableCell>
-        <TableCell align='left' data-testid={makeDataTestId(transaction._id, 'amount')}>{transaction.amount}</TableCell>
-        <TableCell>
+        {/* <TableCell align='right' data-testid={makeDataTestId(transaction._id, 'id')}>{transaction._id}</TableCell> */}
+        {/* <TableCell align='right' data-testid={makeDataTestId(transaction._id, 'userId')}>{transaction.userId}</TableCell> */}
+        <TableCell align='right' data-testid={makeDataTestId(transaction._id, 'description')}>{transaction.description}</TableCell>
+        {/* <TableCell align='right' data-testid={makeDataTestId(transaction._id, 'merchant')}>{transaction.merchantId}</TableCell> */}
+        {/* <TableCell align='right' data-testid={makeDataTestId(transaction._id, 'debit')}>{transaction.debit}</TableCell>
+        <TableCell align='right' data-testid={makeDataTestId(transaction._id, 'credit')}>{transaction.credit}</TableCell> */}
+        <TableCell align='right' data-testid={makeDataTestId(transaction._id, 'paymentType')}>{transaction.debit ? 'Debit' : 'Credit'}</TableCell>
+        <TableCell align='right' data-testid={makeDataTestId(transaction._id, 'amount')}>${transaction.amount}</TableCell>
+        <TableCell align='right'>
           <TxTableMenu history={history} transactionId={transaction._id} />
         </TableCell>
       </StyledTableRow>

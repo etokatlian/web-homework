@@ -17,14 +17,14 @@ const TxTable = ({ data, history }) => {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell align='left'>ID</TableCell>
-            <TableCell align='left'>User ID</TableCell>
-            <TableCell align='left'>Description</TableCell>
-            <TableCell align='left'>Merchant ID</TableCell>
-            <TableCell align='left'>Payment Type</TableCell>
-            {/* <TableCell align='left'>Debit</TableCell>
-            <TableCell align='left'>Credit</TableCell> */}
-            <TableCell align='left'>Amount</TableCell>
+            {/* <TableCell align='right'>ID</TableCell> */}
+            {/* <TableCell align='right'>User ID</TableCell> */}
+            <TableCell align='right'>Description</TableCell>
+            {/* <TableCell align='right'>Merchant ID</TableCell> */}
+            <TableCell align='right'>Payment Type</TableCell>
+            {/* <TableCell align='right'>Debit</TableCell>
+            <TableCell align='right'>Credit</TableCell> */}
+            <TableCell align='right'>Amount</TableCell>
             <TableCell />
           </TableRow>
         </TableHead>
