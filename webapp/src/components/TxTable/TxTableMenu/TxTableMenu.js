@@ -1,5 +1,5 @@
 import React from 'react'
-import { string, shape, func } from 'prop-types'
+import { string } from 'prop-types'
 import IconButton from '@material-ui/core/IconButton'
 import styled from '@emotion/styled'
 import EditIcon from '@material-ui/icons/Edit'
@@ -10,6 +10,7 @@ import Popper from '@material-ui/core/Popper'
 import MenuItem from '@material-ui/core/MenuItem'
 import MenuList from '@material-ui/core/MenuList'
 import { useMutation } from '@apollo/client'
+import { useHistory } from 'react-router-dom'
 import { DELETE_TRANSACTION, GET_TRANSACTIONS } from '../../../gql/queries'
 
 const StyledMenuWrapper = styled.div`
@@ -23,7 +24,8 @@ const StyledMenuPaper = styled(({ ...rest }) => (
   z-index: 999;
 `
 
-const TxTableMenu = ({ history, transactionId }) => {
+const TxTableMenu = ({ transactionId }) => {
+  const history = useHistory()
   const [menuOpen, setMenuOpen] = React.useState(false)
   const anchorRef = React.useRef(null)
 
@@ -42,7 +44,7 @@ const TxTableMenu = ({ history, transactionId }) => {
   }
 
   const handleEditClick = (e) => {
-    history.push(`/transaction/${transactionId}/edit`)
+    history.push(`/transactions/${transactionId}/edit`)
     handleClose(e)
   }
 
@@ -119,9 +121,6 @@ const TxTableMenu = ({ history, transactionId }) => {
 }
 
 TxTableMenu.propTypes = {
-  history: shape({
-    push: func
-  }),
   transactionId: string
 }
 

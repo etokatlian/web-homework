@@ -1,18 +1,13 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { useQuery } from '@apollo/client'
 import { string, shape, func } from 'prop-types'
 import { GET_TRANSACTION, GET_TRANSACTIONS } from '../../gql/queries'
 import { TransactionForm } from '../../components/TransactionForm'
+import { BreadCrumbs } from '../../components/shared'
 
 const TransactionsEdit = ({ match, history }) => {
   useQuery(GET_TRANSACTIONS)
   const { loading, error, data = {} } = useQuery(GET_TRANSACTION, { variables: { id: match.params.id } })
-
-  if (loading) {
-    return (
-      <div>Loading...</div>
-    )
-  }
 
   if (error) {
     return (
@@ -20,8 +15,23 @@ const TransactionsEdit = ({ match, history }) => {
     )
   }
 
+  const RenderForm = () => {
+    if (loading) {
+      return (
+        <Fragment>
+        Loading...
+        </Fragment>
+      )
+    } else {
+      return <TransactionForm edit history={history} transactionData={data.transaction} />
+    }
+  }
+
   return (
-    <TransactionForm data={data.transaction} edit history={history} />
+    <>
+      <BreadCrumbs />
+      {RenderForm()}
+    </>
   )
 }
 

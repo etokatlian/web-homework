@@ -1,9 +1,17 @@
 import React from 'react'
+import { useQuery } from '@apollo/client'
 import { TransactionForm } from '../../components/TransactionForm'
+import { BreadCrumbs } from '../../components/shared'
+import { GET_TRANSACTIONS } from '../../gql/queries'
 
 const TransactionsEntry = (props) => {
+  useQuery(GET_TRANSACTIONS)
   return (
-    <TransactionForm />
+    <>
+      <BreadCrumbs />
+      <TransactionForm />
+    </>
+
   )
 }
 

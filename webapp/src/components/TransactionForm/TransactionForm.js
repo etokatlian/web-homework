@@ -1,13 +1,15 @@
 import React from 'react'
-import * as Yup from 'yup'
-import { string, bool, number, shape, func } from 'prop-types'
-import Button from '@material-ui/core/Button'
+import InputAdornment from '@material-ui/core/InputAdornment'
 import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
 import styled from '@emotion/styled'
-import { useMutation } from '@apollo/client'
+import { string, bool, number, shape } from 'prop-types'
 import { Form, Formik } from 'formik'
 import { GET_TRANSACTIONS, CREATE_TRANSACTION, EDIT_TRANSACTION } from '../../gql/queries'
 import { TextField, Select } from '../shared'
+import useTransactionsCache from '../../hooks/useTransactionsCache'
+import { transactionValidationSchema } from '../../validation'
+import { useHistory } from 'react-router-dom'
 
 const StyledMuiPaper = styled(({ color, ...rest }) => (
   <Paper {...rest} />
@@ -26,51 +28,13 @@ const options = [
   { label: 'Debit', value: 'debit' }
 ]
 
-const validationSchema = Yup.object({
-  description: Yup.string()
-    .max(75, 'Must be 75 characters or less')
-    .required('Required'),
-  amount: Yup.number()
-    .required('Required'),
-  paymentType: Yup.string()
-    .required('Required')
-})
-
-const TransactionForm = ({ edit, data, history }) => {
+const TransactionForm = ({ edit, transactionData }) => {
+  const history = useHistory()
   const mutation = edit ? EDIT_TRANSACTION : CREATE_TRANSACTION
-  const [CreateTransaction, { client }] = useMutation(mutation)
+  const { doMutation } = useTransactionsCache(mutation, edit, transactionData, GET_TRANSACTIONS)
 
   const handleSubmit = async (values, { actions }) => {
-    const { description, amount, paymentType } = values
-    const res = await CreateTransaction({
-      variables: {
-        ...(edit && { id: data && data?._id }),
-        description,
-        amount: parseInt(amount),
-        credit: paymentType === 'credit',
-        debit: paymentType === 'debit'
-      }
-    })
-
-    const cache = client.readQuery({ query: GET_TRANSACTIONS })
-
-    const updatedCache = () => {
-      if (edit) {
-        const idx = cache.transactions.findIndex((transaction) => transaction._id === res.data.editTransaction._id)
-        const transactions = cache.transactions.slice()
-        transactions.splice(idx, 1, res.data.editTransaction)
-        return transactions
-      } else {
-        return [...cache.transactions, res.data.addTransaction]
-      }
-    }
-
-    client.writeQuery({
-      query: GET_TRANSACTIONS,
-      data: {
-        transactions: updatedCache()
-      }
-    })
+    doMutation(values)
 
     if (edit) {
       history.push('/transactions')
@@ -83,12 +47,12 @@ const TransactionForm = ({ edit, data, history }) => {
     <StyledMuiPaper elevation={2} >
       <Formik
         initialValues={{
-          description: data?.description || '',
-          amount: data?.amount || '',
-          paymentType: data?.credit ? 'credit' : data?.debit ? 'debit' : ''
+          description: transactionData?.description || '',
+          amount: transactionData ? (transactionData?.amount / 100).toFixed(2) : '',
+          paymentType: transactionData?.credit ? 'credit' : transactionData?.debit ? 'debit' : ''
         }}
         onSubmit={(values, { ...actions }) => handleSubmit(values, { actions })}
-        validationSchema={validationSchema}
+        validationSchema={transactionValidationSchema}
       >
         <StyledForm>
           <TextField
@@ -102,6 +66,7 @@ const TransactionForm = ({ edit, data, history }) => {
             label='Amount'
             name='amount'
             placeholder='Amount'
+            startAdornment={<InputAdornment position='start'>$</InputAdornment>}
             type='text'
           />
 
@@ -116,10 +81,7 @@ const TransactionForm = ({ edit, data, history }) => {
 
 TransactionForm.propTypes = {
   edit: bool,
-  history: shape({
-    push: func
-  }),
-  data: shape({
+  transactionData: shape({
     amount: number,
     credit: bool,
     debit: bool,

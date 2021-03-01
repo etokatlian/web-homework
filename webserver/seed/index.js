@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const mongoose = require('mongoose')
 const { TransactionModel } = require('../data-models/Transaction')
+const { generateDate, generateDateInRange } = require('../utils/date')
 
 mongoose.connect('mongodb://localhost:27017/graphql', {
   useNewUrlParser: true
@@ -25,7 +26,7 @@ const parseData = (data) => {
 
   const transactions = splitByLine.map((transaction) => {
     const [description, amount, paymentType] = transaction.split(',')
-    return { description, amount, credit: paymentType === 'credit', debit: paymentType === 'debit' }
+    return { description, amount, credit: paymentType === 'credit', debit: paymentType === 'debit', createdAt: generateDateInRange(generateDate(6, 24, 60, 60, 1000), generateDate(1, 24, 60, 60, 1000)) }
   })
 
   save(transactions)

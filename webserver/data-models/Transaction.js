@@ -6,7 +6,8 @@ const TransactionSchema = new Schema({
   amount: { type: Number, default: null },
   credit: { type: Boolean, default: null },
   debit: { type: Boolean, default: null },
-  description: { type: String, default: null }
+  description: { type: String, default: null },
+  createdAt: { type: Date, default: Date.now }
   // merchant_id: { type: String, default: null }
 })
 

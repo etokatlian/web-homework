@@ -10,6 +10,7 @@ export const GET_TRANSACTIONS = gql`
       debit
       credit
       amount
+      createdAt
     }
   }
 `

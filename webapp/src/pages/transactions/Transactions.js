@@ -1,19 +1,12 @@
 import React, { Fragment } from 'react'
 import { useQuery } from '@apollo/client'
-import { shape, func } from 'prop-types'
 import { GET_TRANSACTIONS } from '../../gql/queries'
 import { TxTable } from '../../components/TxTable'
+import { BreadCrumbs } from '../../components/shared'
+import { sortByDate } from '../../utils/date'
 
-const Transactions = ({ history }) => {
+const Transactions = () => {
   const { loading, error, data = {} } = useQuery(GET_TRANSACTIONS)
-
-  if (loading) {
-    return (
-      <Fragment>
-        Loading...
-      </Fragment>
-    )
-  }
 
   if (error) {
     return (
@@ -23,17 +16,25 @@ const Transactions = ({ history }) => {
     )
   }
 
+  const renderTable = () => {
+    if (loading) {
+      return (
+        <Fragment>
+        Loading...
+        </Fragment>
+      )
+    } else {
+      const transactionsSlice = data.transactions.slice()
+      return <TxTable transactionsData={sortByDate(transactionsSlice)} />
+    }
+  }
+
   return (
     <Fragment>
-      <TxTable data={data.transactions} history={history} />
+      <BreadCrumbs />
+      {renderTable()}
     </Fragment>
   )
-}
-
-Transactions.propTypes = {
-  history: shape({
-    push: func
-  })
 }
 
 export default Transactions

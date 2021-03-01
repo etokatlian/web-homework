@@ -1,5 +1,5 @@
 import React from 'react'
-import { string, bool, number, shape, func } from 'prop-types'
+import { string, bool, number, shape } from 'prop-types'
 import IconButton from '@material-ui/core/IconButton'
 import styled from '@emotion/styled'
 import TableCell from '@material-ui/core/TableCell'
@@ -11,7 +11,6 @@ import TableBody from '@material-ui/core/TableBody'
 import Table from '@material-ui/core/Table'
 import Box from '@material-ui/core/Box'
 import TableHead from '@material-ui/core/TableHead'
-
 import { TxTableMenu } from '../TxTableMenu'
 
 const StyledTableRow = styled(({ ...rest }) => (
@@ -24,7 +23,7 @@ const StyledTableRow = styled(({ ...rest }) => (
 
 const makeDataTestId = (transactionId, fieldName) => `transaction-${transactionId}-${fieldName}`
 
-const TxTableRow = ({ transaction, history }) => {
+const TxTableRow = ({ transaction }) => {
   const [open, setOpen] = React.useState(false)
 
   return (
@@ -35,25 +34,18 @@ const TxTableRow = ({ transaction, history }) => {
             {open ? <KeyboardArrowUpIcon data-testid='up-icon' /> : <KeyboardArrowDownIcon data-testid='down-icon' />}
           </IconButton>
         </TableCell>
-        {/* <TableCell align='right' data-testid={makeDataTestId(transaction._id, 'id')}>{transaction._id}</TableCell> */}
-        {/* <TableCell align='right' data-testid={makeDataTestId(transaction._id, 'userId')}>{transaction.userId}</TableCell> */}
-        <TableCell align='right' data-testid={makeDataTestId(transaction._id, 'description')}>{transaction.description}</TableCell>
-        {/* <TableCell align='right' data-testid={makeDataTestId(transaction._id, 'merchant')}>{transaction.merchantId}</TableCell> */}
-        {/* <TableCell align='right' data-testid={makeDataTestId(transaction._id, 'debit')}>{transaction.debit}</TableCell>
-        <TableCell align='right' data-testid={makeDataTestId(transaction._id, 'credit')}>{transaction.credit}</TableCell> */}
-        <TableCell align='right' data-testid={makeDataTestId(transaction._id, 'paymentType')}>{transaction.debit ? 'Debit' : 'Credit'}</TableCell>
-        <TableCell align='right' data-testid={makeDataTestId(transaction._id, 'amount')}>${transaction.amount}</TableCell>
-        <TableCell align='right'>
-          <TxTableMenu history={history} transactionId={transaction._id} />
+        <TableCell align='center' data-testid={makeDataTestId(transaction._id, 'description')}>{transaction.description}</TableCell>
+        <TableCell align='center' data-testid={makeDataTestId(transaction._id, 'paymentType')}>{transaction.debit ? 'Debit' : 'Credit'}</TableCell>
+        <TableCell align='center' data-testid={makeDataTestId(transaction._id, 'amount')}>${(transaction.amount / 100).toFixed(2)}</TableCell>
+        <TableCell align='center' data-testid={makeDataTestId(transaction._id, 'date')}>{transaction.createdAt}</TableCell>
+        <TableCell align='center'>
+          <TxTableMenu transactionId={transaction._id} />
         </TableCell>
       </StyledTableRow>
       <StyledTableRow>
         <TableCell colSpan={6} style={{ paddingBottom: 0, paddingTop: 0 }}>
           <Collapse in={open} timeout='auto' unmountOnExit>
             <Box margin={1}>
-              {/* <Typography component='div' gutterBottom variant='h6'>
-                History
-              </Typography> */}
               <Table aria-label='purchases' size='small'>
                 <TableHead>
                   <TableRow>
@@ -67,10 +59,6 @@ const TxTableRow = ({ transaction, history }) => {
                       {transaction.user_id} User Id 1
                     </TableCell>
                     <TableCell>{transaction.merchantId} Merchant Id 1</TableCell>
-                    {/* <TableCell align='right'>{historyRow.amount}</TableCell>
-                      <TableCell align='right'>
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
-                      </TableCell> */}
                   </TableRow>
                 </TableBody>
               </Table>
@@ -83,9 +71,6 @@ const TxTableRow = ({ transaction, history }) => {
 }
 
 TxTableRow.propTypes = {
-  history: shape({
-    push: func
-  }),
   transaction: shape({
     amount: number,
     credit: bool,

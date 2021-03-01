@@ -12,9 +12,7 @@ const StyledError = styled.div`
   height: 0px;
 `
 
-const StyledFormControl = styled(({ ...rest }) => (
-  <FormControl {...rest} />
-))`
+const StyledInputWrapper = styled.div`
   margin: 25px;
   width: 75%;
 `
@@ -22,18 +20,20 @@ const StyledFormControl = styled(({ ...rest }) => (
 const Select = ({ label, options, ...props }) => {
   const [field, meta] = useField(props)
   return (
-    <StyledFormControl variant='outlined'>
-      <InputLabel >{label}</InputLabel>
-      <MuiSelect {...field}
-        label={label} >
-        {options.map((option) => {
-          return <MenuItem key={option.label} value={option.value}>{option.label}</MenuItem>
-        })}
-      </MuiSelect>
-      <StyledError>{meta.touched && meta.error ? (
-        <ErrorMessage name={props.name} />
-      ) : null}</StyledError>
-    </StyledFormControl>
+    <StyledInputWrapper>
+      <FormControl fullWidth variant='outlined'>
+        <InputLabel >{label}</InputLabel>
+        <MuiSelect {...field}
+          label={label} >
+          {options.map((option) => {
+            return <MenuItem key={option.label} value={option.value}>{option.label}</MenuItem>
+          })}
+        </MuiSelect>
+        <StyledError>{meta.touched && meta.error ? (
+          <ErrorMessage name={props.name} />
+        ) : null}</StyledError>
+      </FormControl>
+    </StyledInputWrapper>
   )
 }
 

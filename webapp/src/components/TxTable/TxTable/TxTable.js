@@ -1,51 +1,78 @@
 import React from 'react'
-import { arrayOf, string, bool, number, shape, func } from 'prop-types'
+import { arrayOf, string, bool, number, shape } from 'prop-types'
 import Paper from '@material-ui/core/Paper'
+import styled from '@emotion/styled'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-
+import AddIcon from '@material-ui/icons/Add'
+import IconButton from '@material-ui/core/IconButton'
+import Typography from '@material-ui/core/Typography'
+import { useHistory } from 'react-router-dom'
 import { TxTableRow } from '../TxTableRow'
 
-const TxTable = ({ data, history }) => {
+const StyledTableHead = styled(({ ...rest }) => (
+  <TableHead {...rest} />
+))`
+  background-color: black
+`
+
+const StyledTypography = styled(({ ...rest }) => (
+  <Typography {...rest} />
+))`
+`
+
+const StyledTableContainer = styled(({ ...rest }) => (
+  <TableContainer {...rest} />
+))`
+  max-height: 750px
+`
+
+const TxTable = ({ transactionsData }) => {
+  const history = useHistory()
+
+  const handleCreateTransactionClick = () => {
+    history.push('/transactions/create')
+  }
+
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label='collapsible table'>
-        <TableHead>
+    <StyledTableContainer component={Paper}>
+      <Table aria-label='sticky table' stickyHeader >
+        <StyledTableHead>
           <TableRow>
             <TableCell />
-            {/* <TableCell align='right'>ID</TableCell> */}
-            {/* <TableCell align='right'>User ID</TableCell> */}
-            <TableCell align='right'>Description</TableCell>
-            {/* <TableCell align='right'>Merchant ID</TableCell> */}
-            <TableCell align='right'>Payment Type</TableCell>
-            {/* <TableCell align='right'>Debit</TableCell>
-            <TableCell align='right'>Credit</TableCell> */}
-            <TableCell align='right'>Amount</TableCell>
-            <TableCell />
+            <TableCell align='center'><StyledTypography variant='h6'>Description</StyledTypography></TableCell>
+            <TableCell align='center'><StyledTypography variant='h6'>Payment Type</StyledTypography></TableCell>
+            <TableCell align='center'><StyledTypography variant='h6'>Amount</StyledTypography></TableCell>
+            <TableCell align='center'><StyledTypography variant='h6'>Date</StyledTypography></TableCell>
+            <TableCell align='center'>
+              <IconButton aria-label='expand row' fontSize='large' onClick={handleCreateTransactionClick}>
+                <AddIcon data-testid='up-icon' fontSize='large' />
+              </IconButton>
+            </TableCell>
           </TableRow>
-        </TableHead>
+        </StyledTableHead>
         <TableBody>
           {
-            data.map((tx, idx) => {
+            transactionsData.map((tx, idx) => {
               return (
-                <TxTableRow history={history} key={`transaction-${idx}`} transaction={tx} />
+                <TxTableRow key={`transaction-${idx}`} transaction={tx} />
               )
             })
           }
         </TableBody>
 
       </Table>
-    </TableContainer>
+    </StyledTableContainer>
 
   )
 }
 
 TxTable.propTypes = {
-  data: arrayOf(shape({
+  transactionsData: arrayOf(shape({
     id: string,
     user_id: string,
     description: string,
@@ -53,10 +80,7 @@ TxTable.propTypes = {
     debit: bool,
     credit: bool,
     amount: number
-  })),
-  history: shape({
-    push: func
-  })
+  }))
 }
 
 export default TxTable

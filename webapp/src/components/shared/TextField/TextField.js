@@ -9,12 +9,6 @@ const StyledInputWrapper = styled.div`
   width: 75%;
 `
 
-const StyledOutlinedInput = styled(({ ...rest }) => (
-  <OutlinedInput {...rest} />
-))`
-  width: 100%;
-`
-
 const StyledError = styled.div`
   color: red;
   height: 0px;
@@ -24,7 +18,7 @@ const TextField = ({ label, ...props }) => {
   const [field, meta] = useField(props)
   return (
     <StyledInputWrapper>
-      <StyledOutlinedInput {...field} {...props} />
+      <OutlinedInput {...field} {...props} fullWidth />
       <StyledError>{meta.touched && meta.error ? (
         <ErrorMessage name={props.name} />
       ) : null}</StyledError>

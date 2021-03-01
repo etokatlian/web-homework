@@ -1,6 +1,7 @@
 const graphql = require('graphql')
 const TransactionType = require('./transaction-type')
 const Transactions = require('../query-resolvers/transaction-resolvers.js')
+const graphqlIsoDate = require('graphql-iso-date')
 
 const {
   GraphQLBoolean,
@@ -27,7 +28,8 @@ const RootQuery = new GraphQLObjectType({
         amount: { type: GraphQLFloat },
         credit: { type: GraphQLBoolean },
         debit: { type: GraphQLBoolean },
-        description: { type: GraphQLString }
+        description: { type: GraphQLString },
+        createdAt: { type: graphqlIsoDate.GraphQLDate }
         // merchant_id: { type: GraphQLString },
         // user_id: { type: GraphQLString }
       },

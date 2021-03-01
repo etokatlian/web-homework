@@ -5,6 +5,7 @@ const {
   GraphQLBoolean,
   GraphQLFloat
 } = graphql
+const graphqlIsoDate = require('graphql-iso-date')
 
 const TransactionType = new GraphQLObjectType({
   name: 'Transaction',
@@ -15,7 +16,8 @@ const TransactionType = new GraphQLObjectType({
     // merchant_id: { type: GraphQLString },
     debit: { type: GraphQLBoolean },
     credit: { type: GraphQLBoolean },
-    amount: { type: GraphQLFloat }
+    amount: { type: GraphQLFloat },
+    createdAt: { type: graphqlIsoDate.GraphQLDate }
   })
 })
 
