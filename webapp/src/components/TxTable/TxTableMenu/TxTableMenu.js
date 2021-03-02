@@ -1,7 +1,6 @@
 import React from 'react'
-import { string } from 'prop-types'
-import IconButton from '@material-ui/core/IconButton'
 import styled from '@emotion/styled'
+import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Grow from '@material-ui/core/Grow'
@@ -9,8 +8,10 @@ import Paper from '@material-ui/core/Paper'
 import Popper from '@material-ui/core/Popper'
 import MenuItem from '@material-ui/core/MenuItem'
 import MenuList from '@material-ui/core/MenuList'
+import { string } from 'prop-types'
 import { useMutation } from '@apollo/client'
 import { useHistory } from 'react-router-dom'
+
 import { DELETE_TRANSACTION, GET_TRANSACTIONS } from '../../../gql/queries'
 
 const StyledMenuWrapper = styled.div`
@@ -49,24 +50,28 @@ const TxTableMenu = ({ transactionId }) => {
   }
 
   const handleDelete = async () => {
-    const res = await DeleteTransaction({
-      variables: {
-        id: transactionId
-      }
-    })
+    const confirmed = window.confirm('Are you sure you want to delete this transaction?')
 
-    const cache = client.readQuery({ query: GET_TRANSACTIONS })
+    if (confirmed) {
+      const res = await DeleteTransaction({
+        variables: {
+          id: transactionId
+        }
+      })
 
-    const cacheWithoutDeletedTransaction = cache.transactions.filter((transaction) => {
-      return transaction._id !== res.data.deleteTransaction._id
-    })
+      const cache = client.readQuery({ query: GET_TRANSACTIONS })
 
-    client.writeQuery({
-      query: GET_TRANSACTIONS,
-      data: {
-        transactions: cacheWithoutDeletedTransaction
-      }
-    })
+      const cacheWithoutDeletedTransaction = cache.transactions.filter((transaction) => {
+        return transaction._id !== res.data.deleteTransaction._id
+      })
+
+      client.writeQuery({
+        query: GET_TRANSACTIONS,
+        data: {
+          transactions: cacheWithoutDeletedTransaction
+        }
+      })
+    }
 
     setMenuOpen(!!menuOpen)
   }

@@ -4,7 +4,7 @@ import { TransactionForm } from '../../components/TransactionForm'
 import { BreadCrumbs } from '../../components/shared'
 import { GET_TRANSACTIONS } from '../../gql/queries'
 
-const TransactionsEntry = (props) => {
+const TransactionsEntry = () => {
   useQuery(GET_TRANSACTIONS)
   return (
     <>

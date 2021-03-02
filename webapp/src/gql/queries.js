@@ -4,9 +4,7 @@ export const GET_TRANSACTIONS = gql`
   query GetTransactions {
     transactions {
       _id
-      # user_id
       description
-      # merchant_id
       debit
       credit
       amount
@@ -21,28 +19,14 @@ export const CREATE_TRANSACTION = gql`
     $credit: Boolean!
     $debit: Boolean!
     $description: String!
-    # $merchantId: ID!
-    # $userId: ID!
 ) {
     addTransaction(
       amount: $amount
       credit: $credit
       debit: $debit
       description: $description
-      # merchantId: $merchantId
-      # userId: $userId
     ) {
       _id
-      # user {
-      #   id
-      #   firstName
-      #   lastName
-      # }
-      # merchant {
-      #   id
-      #   name
-      #   description
-      # }
       description
       debit
       credit
@@ -70,8 +54,6 @@ export const EDIT_TRANSACTION = gql`
   $credit: Boolean!
   $debit: Boolean!
   $description: String!
-  # $merchantId: ID!
-  # $userId: ID!
 ) {
     editTransaction(
       id: $id
@@ -79,20 +61,8 @@ export const EDIT_TRANSACTION = gql`
       credit: $credit
       debit: $debit
       description: $description
-      # merchantId: $merchantId
-      # userId: $userId
     ) {
       _id
-      # user {
-      #   id
-      #   firstName
-      #   lastName
-      # }
-      # merchant {
-      #   id
-      #   name
-      #   description
-      # }
       description
       debit
       credit

@@ -1,7 +1,7 @@
 import React from 'react'
+import styled from '@emotion/styled'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs'
 import Typography from '@material-ui/core/Typography'
-import styled from '@emotion/styled'
 import { Link, useHistory } from 'react-router-dom'
 
 const StyledLink = styled(({ ...rest }) => (

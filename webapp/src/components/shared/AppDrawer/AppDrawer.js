@@ -1,5 +1,4 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import Drawer from '@material-ui/core/Drawer'
 import Button from '@material-ui/core/Button'
@@ -12,6 +11,7 @@ import AccountBalanceTwoToneIcon from '@material-ui/icons/AccountBalanceTwoTone'
 import AddIcon from '@material-ui/icons/Add'
 import TimelineIcon from '@material-ui/icons/Timeline'
 import HomeIcon from '@material-ui/icons/Home'
+import { Link } from 'react-router-dom'
 
 const StyledLink = styled(({ color, ...rest }) => (
   <Link {...rest} />
@@ -25,11 +25,8 @@ const StyledDrawerWrapper = styled.div`
 `
 
 const AppDrawer = () => {
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false
+  const [state, setState] = useState({
+    left: false
   })
 
   const toggleDrawer = (side, open) => event => {

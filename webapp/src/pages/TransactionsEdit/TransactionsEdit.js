@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { useQuery } from '@apollo/client'
 import { string, shape, func } from 'prop-types'
 import { GET_TRANSACTION, GET_TRANSACTIONS } from '../../gql/queries'
@@ -18,9 +18,9 @@ const TransactionsEdit = ({ match, history }) => {
   const RenderForm = () => {
     if (loading) {
       return (
-        <Fragment>
+        <>
         Loading...
-        </Fragment>
+        </>
       )
     } else {
       return <TransactionForm edit history={history} transactionData={data.transaction} />

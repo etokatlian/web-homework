@@ -10,9 +10,7 @@ const mutation = new GraphQLObjectType({
     addTransaction: {
       type: TransactionType,
       args: {
-        // user_id: { type: GraphQLString },
         description: { type: GraphQLString },
-        // merchant_id: { type: GraphQLString },
         debit: { type: GraphQLBoolean },
         credit: { type: GraphQLBoolean },
         amount: { type: GraphQLFloat }
@@ -26,9 +24,7 @@ const mutation = new GraphQLObjectType({
       type: TransactionType,
       args: {
         id: { type: GraphQLString },
-        // user_id: { type: GraphQLString },
         description: { type: GraphQLString },
-        // merchant_id: { type: GraphQLString },
         debit: { type: GraphQLBoolean },
         credit: { type: GraphQLBoolean },
         amount: { type: GraphQLFloat }

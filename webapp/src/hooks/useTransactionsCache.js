@@ -1,5 +1,7 @@
 import { useMutation } from '@apollo/client'
 
+import { CREDIT_PAYMENT_TYPE, DEBIT_PAYMENT_TYPE } from '../constants'
+
 const useTransactionsCache = (mutation, mutationTypeIsEdit, transactionData, readQuery) => {
   const [transactionMutation, { client }] = useMutation(mutation)
 
@@ -10,8 +12,8 @@ const useTransactionsCache = (mutation, mutationTypeIsEdit, transactionData, rea
         ...(mutationTypeIsEdit && { id: transactionData && transactionData?._id }),
         description,
         amount: parseFloat(amount) * 100,
-        credit: paymentType === 'credit',
-        debit: paymentType === 'debit'
+        credit: paymentType === CREDIT_PAYMENT_TYPE,
+        debit: paymentType === DEBIT_PAYMENT_TYPE
       }
     })
     const { transactions } = client.readQuery({ query: readQuery })

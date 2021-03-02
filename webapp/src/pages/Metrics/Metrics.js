@@ -1,14 +1,20 @@
-import React from 'react'
-import moment from 'moment'
+import React, { useContext } from 'react'
 import _ from 'lodash'
+import moment from 'moment'
 import { useQuery } from '@apollo/client'
 import { AreaChart, YAxis, XAxis, CartesianGrid, Tooltip, Area, Legend, ResponsiveContainer } from 'recharts'
+
 import { BreadCrumbs } from '../../components/shared'
 import { GET_TRANSACTIONS } from '../../gql/queries'
+import { RomanNumeralsContext } from '../../context/romanNumeralsContext'
+import { integerToRoman } from '../../utils/numbers'
+import { CREDIT_PAYMENT_TYPE, DEBIT_PAYMENT_TYPE } from '../../constants'
 
 const Metrics = () => {
   const { loading, data = {} } = useQuery(GET_TRANSACTIONS)
+  const { isRoman } = useContext(RomanNumeralsContext)
 
+  // TODO: clean this up :(
   const tomorrow = moment().add(1, 'days').format('YYYY-MM-DD')
   const today = moment().format('YYYY-MM-DD')
   const yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD')
@@ -70,11 +76,19 @@ const Metrics = () => {
     })
   })
 
-  const dataPointsWithFixedAmounts = defaultAreaData.map((dataPoint) => {
+  let dataPointsWithFixedAmounts = defaultAreaData.map((dataPoint) => {
     dataPoint.debit /= 100
     dataPoint.credit /= 100
     return dataPoint
   })
+
+  if (isRoman) {
+    dataPointsWithFixedAmounts = dataPointsWithFixedAmounts.map((dp) => {
+      dp.debitRoman = integerToRoman(Math.floor(dp.debit))
+      dp.creditRoman = integerToRoman(Math.floor(dp.credit))
+      return dp
+    })
+  }
 
   const renderChart = () => {
     if (loading) {
@@ -95,12 +109,12 @@ const Metrics = () => {
               </linearGradient>
             </defs>
             <XAxis dataKey='name' tickSize={15} />
-            <YAxis tickSize={15} unit='$' />
+            <YAxis tickFormatter={(num) => isRoman ? integerToRoman(num) : num} tickSize={15} unit='$' width={80} />
             <CartesianGrid strokeDasharray='3 3' />
-            <Tooltip />
+            <Tooltip formatter={(num) => isRoman ? integerToRoman(num) : num} />
             <Legend height={36} verticalAlign='top' />
-            <Area dataKey='debit' fill='url(#colorUv)' fillOpacity={1} stroke='#8884d8' type='monotone' />
-            <Area dataKey='credit' fill='url(#colorPv)' fillOpacity={1} stroke='#82ca9d' type='monotone' />
+            <Area dataKey={DEBIT_PAYMENT_TYPE} fill='url(#colorUv)' fillOpacity={1} stroke='#8884d8' type='monotone' />
+            <Area dataKey={CREDIT_PAYMENT_TYPE} fill='url(#colorPv)' fillOpacity={1} stroke='#82ca9d' type='monotone' />
           </AreaChart>
         </ResponsiveContainer>
       )

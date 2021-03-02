@@ -1,5 +1,4 @@
 import React from 'react'
-import { arrayOf, string, bool, number, shape } from 'prop-types'
 import Paper from '@material-ui/core/Paper'
 import styled from '@emotion/styled'
 import Table from '@material-ui/core/Table'
@@ -11,7 +10,9 @@ import TableRow from '@material-ui/core/TableRow'
 import AddIcon from '@material-ui/icons/Add'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
+import { arrayOf, string, bool, number, shape } from 'prop-types'
 import { useHistory } from 'react-router-dom'
+
 import { TxTableRow } from '../TxTableRow'
 
 const StyledTableHead = styled(({ ...rest }) => (

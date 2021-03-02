@@ -1,8 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { string, element } from 'prop-types'
 import styled from '@emotion/styled'
 import Typography from '@material-ui/core/Typography'
+import { string, element } from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const StyledLink = styled(({ ...rest }) => (
   <Link {...rest} />

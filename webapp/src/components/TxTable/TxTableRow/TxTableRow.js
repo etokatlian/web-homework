@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { string, bool, number, shape } from 'prop-types'
 import IconButton from '@material-ui/core/IconButton'
-import styled from '@emotion/styled'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
@@ -11,24 +10,29 @@ import TableBody from '@material-ui/core/TableBody'
 import Table from '@material-ui/core/Table'
 import Box from '@material-ui/core/Box'
 import TableHead from '@material-ui/core/TableHead'
-import { TxTableMenu } from '../TxTableMenu'
 
-const StyledTableRow = styled(({ ...rest }) => (
-  <TableRow {...rest} />
-))`
-  ${'*'} {
-    border-bottom: unset
-  }
-`
+import { TxTableMenu } from '../TxTableMenu'
+import { RomanNumeralsContext } from '../../../context/romanNumeralsContext'
+import { integerToRoman } from '../../../utils/numbers'
 
 const makeDataTestId = (transactionId, fieldName) => `transaction-${transactionId}-${fieldName}`
 
 const TxTableRow = ({ transaction }) => {
   const [open, setOpen] = React.useState(false)
+  const { isRoman } = useContext(RomanNumeralsContext)
+
+  const generateTransactionAmountDisplay = () => {
+    if (isRoman) {
+      let rounded = Math.floor(transaction.amount / 100).toFixed(2)
+      return integerToRoman(rounded)
+    } else {
+      return (transaction.amount / 100).toFixed(2)
+    }
+  }
 
   return (
     <>
-      <StyledTableRow data-testid={`transaction-${transaction._id}`} hover key={`transaction-${transaction._id}`}>
+      <TableRow data-testid={`transaction-${transaction._id}`} hover key={`transaction-${transaction._id}`}>
         <TableCell>
           <IconButton aria-label='expand row' onClick={() => setOpen(!open)} size='small'>
             {open ? <KeyboardArrowUpIcon data-testid='up-icon' /> : <KeyboardArrowDownIcon data-testid='down-icon' />}
@@ -36,36 +40,34 @@ const TxTableRow = ({ transaction }) => {
         </TableCell>
         <TableCell align='center' data-testid={makeDataTestId(transaction._id, 'description')}>{transaction.description}</TableCell>
         <TableCell align='center' data-testid={makeDataTestId(transaction._id, 'paymentType')}>{transaction.debit ? 'Debit' : 'Credit'}</TableCell>
-        <TableCell align='center' data-testid={makeDataTestId(transaction._id, 'amount')}>${(transaction.amount / 100).toFixed(2)}</TableCell>
+        <TableCell align='center' data-testid={makeDataTestId(transaction._id, 'amount')}>${generateTransactionAmountDisplay()}</TableCell>
         <TableCell align='center' data-testid={makeDataTestId(transaction._id, 'date')}>{transaction.createdAt}</TableCell>
         <TableCell align='center'>
           <TxTableMenu transactionId={transaction._id} />
         </TableCell>
-      </StyledTableRow>
-      <StyledTableRow>
-        <TableCell colSpan={6} style={{ paddingBottom: 0, paddingTop: 0 }}>
+      </TableRow>
+      <TableRow>
+        <TableCell colSpan={6} style={{ paddingBottom: 0, paddingTop: 0, borderBottom: 'none' }}>
           <Collapse in={open} timeout='auto' unmountOnExit>
-            <Box margin={1}>
-              <Table aria-label='purchases' size='small'>
+            <Box style={{ backgroundColor: '#fafafa', borderRadius: 2 }}>
+              <Table aria-label='purchases' size='medium'>
                 <TableHead>
                   <TableRow>
-                    <TableCell>User</TableCell>
-                    <TableCell>Merchant</TableCell>
+                    <TableCell><strong>User</strong></TableCell>
+                    <TableCell><strong>Merchant</strong></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <TableCell component='th' scope='row'>
-                      {transaction.user_id} User Id 1
-                    </TableCell>
-                    <TableCell>{transaction.merchantId} Merchant Id 1</TableCell>
+                    <TableCell>Eric</TableCell>
+                    <TableCell>Random Merchant</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
             </Box>
           </Collapse>
         </TableCell>
-      </StyledTableRow>
+      </TableRow>
     </>
   )
 }

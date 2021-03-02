@@ -1,35 +1,36 @@
 # Divvy Homework Assignment
 
-This repository provides a starting point for a basic React + GraphQL application.
-All of the configuration boilerplate is complete so you can start by writing the code that you want us to see.
+## To run this project locally:
 
-Please **fork** this repo a **private repo** on your GitHub account.
+1. Run `docker-compose up -d` from root of project. This will spin up a docker instance with Mongodb.
+2. Navigate into /webserver directory and run:
+   * `npm install`
+   * `npm run seed`
+   * `npm run start`
+3. Navigate into /webapp directory and run:
+   * `npm install`
+   * `npm run start`
 
-Please share your finished project repo with @thawk55 and @lwintch as part of your submission.
+You should now be able to view the app on `localhost:3000` in your browser.
 
 <br />
+<br />
 
-
-## Project Setup
-
-This repository is split into a web app directory (eg `/webapp`) and two server directories (eg `/webserver` and `/elixir`).
-
-The `/webserver` one includes a functional GraphQL server in NodeJS with MongoDB backing it.
-
-The `/elixir` one includes a functional GraphQL server in Elixir with Postgresql backing it.
-
-If you are applying for backend, you should use the elixir code.
-If you are applying for frontend, feel free to use either.
-
-This project is _intentionally not utilizing 3rd party services or create-react-app_ to give you the opportunity to showcase your talents wherever they are, be it the front end or the back end.
-
-## Instructions
-
-If you are pursuing a full stack or backend position, please include elixir code changes in your homework.
-
-See the [Frontend instructions](webapp/README.md) for frontend focused instructions.  If front end only, use the node server in `/webserver`.
-
-See the [Backend instructions](backend.md) for backend focused instructions.
-
+## Objectives completed
+--------
+- [x] Added UI functionality to Create, Read, Update, Delete Transactions.
+- [x] Added server-side (Node) GraphQL resolvers and updated schema to support update/delete mutations.
+- [x] Added functionality to view transaction amounts as Roman Numerals.
+- [x] Added histogram to view transaction spending, per category, per day (viewable in integer and Roman numeral format).
+- [x] Added database seeding via CSV file and npm script.
+- [x] Improved User experience in UI:
+  * Better navigation with breaadcrumbs + navigation drawer.
+  * Better styling via Material UI + emotionJS styled components.
+  * Nested Table views (using static data).
+  * Multiple routes : 
+    1. /transactions
+    2. /transactions/create
+    3. /transactions/metrics
+    4. /transactions/{transactionId}/edit
 
 

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { useQuery } from '@apollo/client'
 import { GET_TRANSACTIONS } from '../../gql/queries'
 import { TxTable } from '../../components/TxTable'
@@ -10,30 +10,30 @@ const Transactions = () => {
 
   if (error) {
     return (
-      <Fragment>
+      <>
         ¯\_(ツ)_/¯
-      </Fragment>
+      </>
     )
   }
 
   const renderTable = () => {
     if (loading) {
       return (
-        <Fragment>
+        <>
         Loading...
-        </Fragment>
+        </>
       )
     } else {
-      const transactionsSlice = data.transactions.slice()
+      const transactionsSlice = data.transactions.slice() // copy transactions slice to not mutate cache.
       return <TxTable transactionsData={sortByDate(transactionsSlice)} />
     }
   }
 
   return (
-    <Fragment>
+    <>
       <BreadCrumbs />
       {renderTable()}
-    </Fragment>
+    </>
   )
 }
 

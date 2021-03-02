@@ -1,10 +1,10 @@
 import React from 'react'
-import { string, shape, arrayOf } from 'prop-types'
-import { Select as MuiSelect } from '@material-ui/core'
 import styled from '@emotion/styled'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
+import { string, shape, arrayOf } from 'prop-types'
+import { Select as MuiSelect } from '@material-ui/core'
 import { useField, ErrorMessage } from 'formik'
 
 const StyledError = styled.div`
@@ -19,6 +19,7 @@ const StyledInputWrapper = styled.div`
 
 const Select = ({ label, options, ...props }) => {
   const [field, meta] = useField(props)
+
   return (
     <StyledInputWrapper>
       <FormControl fullWidth variant='outlined'>
