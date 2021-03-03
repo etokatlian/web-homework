@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom'
 
 import { AppDrawer } from '../AppDrawer'
 import { RomanNumeralsContext } from '../../../context/romanNumeralsContext'
+import { TRANSACTIONS_CREATE_PATH, TRANSACTIONS_EDIT_PATH } from '../../../constants'
 
 const StyledAppBar = styled(({ ...rest }) => (
   <AppBar {...rest} />
@@ -32,7 +33,7 @@ const MuiAppBar = () => {
   const { pathname } = useLocation()
 
   useEffect(() => {
-    if (pathname.includes('/create') || pathname.includes('/edit')) {
+    if (pathname.includes(TRANSACTIONS_CREATE_PATH) || pathname.includes(TRANSACTIONS_EDIT_PATH)) {
       setIsRoman(false)
     }
   })

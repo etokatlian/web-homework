@@ -50,8 +50,8 @@ const TxTable = ({ transactionsData }) => {
             <TableCell align='center'><StyledTypography variant='h6'>Amount</StyledTypography></TableCell>
             <TableCell align='center'><StyledTypography variant='h6'>Date</StyledTypography></TableCell>
             <TableCell align='center'>
-              <IconButton aria-label='expand row' fontSize='large' onClick={handleCreateTransactionClick}>
-                <AddIcon data-testid='up-icon' fontSize='large' />
+              <IconButton aria-label='expand row' data-testid='custom-element' fontSize='large' onClick={handleCreateTransactionClick} role='button'>
+                <AddIcon fontSize='large' />
               </IconButton>
             </TableCell>
           </TableRow>

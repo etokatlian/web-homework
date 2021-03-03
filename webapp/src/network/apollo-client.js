@@ -1,5 +1,6 @@
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, Observable } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
+import fetch from 'node-fetch'
 
 const SERVER_URL = 'http://localhost:8000/graphql'
 
@@ -41,7 +42,8 @@ export const client = new ApolloClient({
     }),
     requestLink,
     new HttpLink({
-      uri: SERVER_URL
+      uri: SERVER_URL,
+      fetch: fetch
     })
   ]),
   connectToDevTools: true,
